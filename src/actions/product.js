@@ -23,7 +23,7 @@ const successProducts = (products) => {
   };
 }
 
-export function showProducts(categoryName){
+export const getProducts=(categoryName)=>{
  return (dispatch, getState)=>{
   dispatch(loadingProducts(true));
   return ProductApi.list(categoryName)
