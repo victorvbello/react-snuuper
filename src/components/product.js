@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+
 import {getProducts} from '../actions/product';
 import {addProductToCart} from '../actions/cart';
+import ProductItem from './productItem';
 
 class Product extends Component {
 
@@ -35,7 +37,7 @@ class Product extends Component {
     this.init(category);
   }
 
-  renderUsersList(){
+  renderProductList(){
     return this.props.products.map((product)=>{
       let productCart={ id:product.id,
                         category:this.state.category,
@@ -43,11 +45,13 @@ class Product extends Component {
                         price:product.price
                       };
       return(
-        <li key={product.id}>{product.name} 
-          <button onClick={() => this.props.addProductToCart(productCart)}>
-            add
-          </button>
-        </li>
+        <ProductItem 
+          key={product.id}
+          name={product.name}
+          excerpt={product.excerpt}
+          price={product.price}
+          imgUrl={product.url}
+          additemToCart={() => this.props.addProductToCart(productCart)}/>
       );
     });
   }
@@ -57,7 +61,7 @@ class Product extends Component {
       <div>
         <h2>Lista de Productos de la Categoria: {this.state.category}</h2>
         <ul>
-          {this.renderUsersList()}
+          {this.renderProductList()}
         </ul>
       </div>
     );

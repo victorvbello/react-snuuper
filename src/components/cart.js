@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+
 import {getProductCart,deleteProductCart,getTotalPrice} from '../actions/cart';
+import CartItem from './cartItem';
 
 class Cart extends Component {
 
@@ -15,14 +17,15 @@ class Cart extends Component {
     this.props.getProductCart();
   }
   
-  renderUsersList(){
-    return this.props.cartProducts.map((cartProduct,index)=>{
+  renderCartList(){
+    return this.props.cartProducts.map((cartProduct)=>{
       return(
-        <li key={cartProduct.id}>{cartProduct.name} =>>> {cartProduct.price}
-          <button onClick={() => this.props.deleteProductCart(cartProduct.id)}>
-            remove
-          </button>
-        </li>
+        <CartItem
+          key={cartProduct.id}
+          category={cartProduct.category}
+          name={cartProduct.name} 
+          price={cartProduct.price} 
+          deleteItem={() => this.props.deleteProductCart(cartProduct.id)} />
       );
     });
   }
@@ -32,7 +35,7 @@ class Cart extends Component {
       <div>
         <h2>Lista de Productos en el carro de compras</h2>
         <ul>
-          {this.renderUsersList()}
+          {this.renderCartList()}
         </ul>
         total: {this.props.totalCart}
       </div>
