@@ -1,4 +1,5 @@
 import {CART} from '../constans';
+import {CartApi} from '../api';
 
 //LIST
 
@@ -62,6 +63,7 @@ const loadingDeleteProductCart = (bool) => {
   };
 }
 
+
 const successDeleteProductCart = (productId) => {
   return {
     type: CART.SUCCESS_DELETE_PRODUCT_CART,
@@ -69,6 +71,35 @@ const successDeleteProductCart = (productId) => {
   };
 }
 
+//SEND
+
+const errorSendCart=(error)=>{
+  return {
+    type:CART.ERROR_SEND_CART,
+    payload:error
+  }
+}
+
+const loadingSendCart=(bool)=>{
+  return {
+    type:CART.LOADING_SEND_CART,
+    payload:bool
+  }
+}
+
+const succesSendCart=(bool)=>{
+  return {
+    type:CART.SUCCESS_SEND_CART,
+    payload:bool
+  }
+}
+
+const successClearCart=(bool)=>{
+  return {
+    type:CART.SUCCESS_CLEAR_CART,
+    payload:bool
+  }
+}
 
 export const addProductToCart=(product)=>{
   
@@ -94,11 +125,30 @@ export const getProductCart=()=>{
 
 export const deleteProductCart=(productId)=>{
   
-  return (dispatch, getState)=>{ 
+  return (dispatch, getState)=>{
     dispatch(loadingDeleteProductCart(true));
     if(getState().cart.list.length>0){
       dispatch(successDeleteProductCart(productId));
       dispatch(loadingDeleteProductCart(false));
     }
+  }
+}
+
+export const sendCart=()=>{
+
+ return (dispatch, getState)=>{
+  dispatch(loadingSendCart(true));
+  return CartApi.save(getState().cart.list)
+    .then(result => {
+      console.log("Compra Realizada");
+      console.log(result);
+      dispatch(succesSendCart(true));
+      dispatch(successClearCart(true));
+      dispatch(loadingSendCart(false));
+    })
+    .catch(error=>{
+      dispatch(errorSendCart(error));
+      dispatch(loadingSendCart(false));
+    })
   }
 }

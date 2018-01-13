@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
-import {getProductCart,deleteProductCart,getTotalPrice} from '../actions/cart';
+import {getProductCart,deleteProductCart,sendCart} from '../actions/cart';
 import CartItem from './cartItem';
 
 class Cart extends Component {
@@ -31,6 +31,10 @@ class Cart extends Component {
   }
 
   render() {
+    let ifCartSend=null;
+     if(this.props.cartSave){
+      ifCartSend=(<span>Carro guardado con exito</span>);
+    }
     return (
       <div>
         <h2>Lista de Productos en el carro de compras</h2>
@@ -38,6 +42,8 @@ class Cart extends Component {
           {this.renderCartList()}
         </ul>
         total: {this.props.totalCart}
+        <button onClick={this.props.sendCart} disabled={this.props.totalCart==0}>Terminar Compra</button>
+        {ifCartSend}
       </div>
     );
   }
@@ -46,14 +52,16 @@ class Cart extends Component {
 const mapStateToProps = (state) => {
   return {
     cartProducts:state.cart.list,
-    totalCart:state.cart.totalPrice
+    totalCart:state.cart.totalPrice,
+    cartSave:state.cart.send
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProductCart:()=>dispatch(getProductCart()),
-    deleteProductCart:(productId)=>dispatch(deleteProductCart(productId))
+    deleteProductCart:(productId)=>dispatch(deleteProductCart(productId)),
+    sendCart:()=>dispatch(sendCart())
   };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Cart);

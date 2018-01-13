@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
 
-import Product from '../components/product';
-import Cart from '../components/cart';
+import Header from './header';
+import Content from './content';
 
 class App extends Component {
 
@@ -10,20 +12,9 @@ class App extends Component {
     return (
       <Router>
         <div>
-           <h2>Mi Carrito de Compras</h2>
-           <ul>
-              <li><Link to={'/products/video-games'}>Video Juegos</Link></li>
-              <li><Link to={'/products/movies'}>Peliculas</Link></li>
-              <li><Link to={'/products/electronics'}>Tecnología</Link></li>
-              <li><Link to={'/shoppingCart'}>Carro de Compras</Link></li>
-           </ul>
+           <Header/>
            <hr />
-           
-           <Switch>
-              <Route exact path='/products/:category' component={Product} />
-              <Route exact path='/shoppingCart' component={Cart} />
-           </Switch>
-           <Cart/>
+           <Content/>
         </div>
      </Router>
     );

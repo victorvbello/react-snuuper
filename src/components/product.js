@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {getProducts} from '../actions/product';
 import {addProductToCart} from '../actions/cart';
 import ProductItem from './productItem';
+import {transformCategory} from '../util';
 
 class Product extends Component {
 
@@ -11,16 +13,16 @@ class Product extends Component {
     super();
 
     this.state={
-      category:""
+      currentCategory:""
     };
   }
 
   init(category){
     const categoryParsed = category.replace('-', '_').toUpperCase();
-    this.setState({
-      category:category.replace('-', ' ').toLowerCase()
-    });
     this.props.getProducts(categoryParsed);
+    this.setState({
+      currentCategory:transformCategory(category)
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +42,7 @@ class Product extends Component {
   renderProductList(){
     return this.props.products.map((product)=>{
       let productCart={ id:product.id,
-                        category:this.state.category,
+                        category:this.state.currentCategory,
                         name:product.name,
                         price:product.price
                       };
@@ -56,13 +58,33 @@ class Product extends Component {
     });
   }
 
+  renderNavButtons(){
+    let prev=null;
+    let next=null;
+    if(this.props.prevCategory!=""){
+      prev=<Link to={'/products/'+this.props.prevCategory}>prev</Link>;
+    }
+    if(this.props.nextCategory!=""){
+      next=<Link to={'/products/'+this.props.nextCategory}>next</Link>;
+    }else{
+      next=<Link to={'/shoppingCart'}>buy</Link>;
+    }
+    return (
+      <div>
+        {prev} -----
+        {next}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
-        <h2>Lista de Productos de la Categoria: {this.state.category}</h2>
+        <h2>Lista de Productos de la Categoria: {this.state.currentCategory}</h2>
         <ul>
           {this.renderProductList()}
         </ul>
+        {this.renderNavButtons()}
       </div>
     );
   }
@@ -70,7 +92,9 @@ class Product extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    products:state.product.list
+    products:state.product.list,
+    nextCategory:state.product.nextCategory,
+    prevCategory:state.product.prevCategory,
   };
 };
 

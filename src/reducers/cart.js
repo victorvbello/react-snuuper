@@ -2,7 +2,8 @@ import {CART} from '../constans';
 
 const initialState={
   list:[],
-  totalPrice:0
+  totalPrice:0,
+  send:false
 };
 
 export function cart(state=initialState,action){
@@ -28,6 +29,12 @@ export function cart(state=initialState,action){
         return filter;
       });
       return {...state,...{list:newList,totalPrice:newTotalPrice}}
+    break;
+    case CART.SUCCESS_SEND_CART:
+      return {...state,...{list:newList,totalPrice:newTotalPrice,send:action.payload}}
+    break;
+    case CART.SUCCESS_CLEAR_CART:
+      return {...state,...initialState}
     break;
     default:
       return state;
