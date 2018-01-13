@@ -5,9 +5,10 @@ const initialState={
 };
 
 export function product(state=initialState,action){
+  let newState = [...state.list];
   switch(action.type){
     case PRODUCT.SUCCESS_GET_PRODUCT:
-      return Object.assign({},state,{list:action.payload});
+      return  {...state,...{list:action.payload}}
     break;
     default:
       return state;

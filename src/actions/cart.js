@@ -62,10 +62,10 @@ const loadingDeleteProductCart = (bool) => {
   };
 }
 
-const successDeleteProductCart = (bool) => {
+const successDeleteProductCart = (productId) => {
   return {
     type: CART.SUCCESS_DELETE_PRODUCT_CART,
-    payload:bool
+    payload:productId
   };
 }
 
@@ -92,16 +92,13 @@ export const getProductCart=()=>{
   }
 }
 
-export const deleteProductCart=(itemIndex)=>{
+export const deleteProductCart=(productId)=>{
   
   return (dispatch, getState)=>{ 
     dispatch(loadingDeleteProductCart(true));
     if(getState().cart.list.length>0){
-      if(getState().cart.list[itemIndex]!==undefined){
-        getState().cart.list.splice(itemIndex, 1);
-        dispatch(successDeleteProductCart(true));
-        dispatch(loadingDeleteProductCart(false));
-      }
+      dispatch(successDeleteProductCart(productId));
+      dispatch(loadingDeleteProductCart(false));
     }
   }
 }

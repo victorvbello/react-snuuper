@@ -1,18 +1,34 @@
 import {CART} from '../constans';
 
 const initialState={
-  list:[]
+  list:[],
+  totalPrice:0
 };
 
 export function cart(state=initialState,action){
+  let newList = [...state.list];
+  let newTotalPrice = state.totalPrice;
   switch(action.type){
     case CART.SUCCESS_ADD_PRODUCT_CART:
-      let finalList=state.list;
-      finalList.push(action.payload);
-      return Object.assign({},state,{list:finalList});
+      const product=action.payload
+      newList.push(product);
+      newTotalPrice+=product.price;
+      return { ...state, ...{ list: newList,totalPrice:newTotalPrice} };
     break;
     case CART.SUCCESS_GET_CART:
-      return Object.assign({},state,{list:action.payload});
+      return {...state,...{list:newList,totalPrice:newTotalPrice}}
+    break;
+    case CART.SUCCESS_DELETE_PRODUCT_CART:
+      const productId= action.payload;
+      newList = newList.filter((currentProduct) => {
+        let filter=currentProduct.id !== productId;
+        if(!filter){
+          newTotalPrice=newTotalPrice-currentProduct.price;
+        }
+        return filter;
+      });
+      return {...state,...{list:newList,totalPrice:newTotalPrice}}
+    break;
     default:
       return state;
     break;

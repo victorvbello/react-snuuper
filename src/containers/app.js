@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Product from './product';
-import Cart from './cart';
+import Product from '../components/product';
+import Cart from '../components/cart';
 
 class App extends Component {
 
@@ -24,6 +23,7 @@ class App extends Component {
               <Route exact path='/products/:category' component={Product} />
               <Route exact path='/shoppingCart' component={Cart} />
            </Switch>
+           <Cart/>
         </div>
      </Router>
     );
