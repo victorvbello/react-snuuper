@@ -47,7 +47,7 @@ class Cart extends Component {
           </Col>
           <Col xs={6} className="text-right">
             <Button 
-              onClick={this.props.sendCart} 
+              onClick={()=>this.props.sendCart(this.props.cartProducts)} 
               disabled={this.props.totalCart==0}
               bsStyle="success">
               Terminar Compra
@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getProductCart:()=>dispatch(getProductCart()),
     deleteProductCart:(productId)=>dispatch(deleteProductCart(productId)),
-    sendCart:()=>dispatch(sendCart())
+    sendCart:(listProducts)=>dispatch(sendCart(listProducts))
   };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Cart);

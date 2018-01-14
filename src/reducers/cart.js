@@ -12,7 +12,7 @@ export function cart(state=initialState,action){
   switch(action.type){
     case CART.SUCCESS_ADD_PRODUCT_CART:
       const product=action.payload
-      if(newList.indexOf(product)==-1){
+      if(newList.find((e)=>{return e.id==product.id})==undefined){
         newList.push(product);
         newTotalPrice+=product.price;
       }

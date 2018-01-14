@@ -128,11 +128,11 @@ export const deleteProductCart=(productId)=>{
   }
 }
 
-export const sendCart=()=>{
+export const sendCart=(listProducts)=>{
 
  return (dispatch, getState)=>{
   dispatch(loadingSendCart(true));
-  return CartApi.save(getState().cart.list)
+  return CartApi.save(listProducts)
     .then(result => {
       dispatch(succesSendCart(true));
       dispatch(successClearCart(true));
