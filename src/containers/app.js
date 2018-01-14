@@ -11,9 +11,8 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div className="container-fluid">
            <Header/>
-           <hr />
            <Content/>
         </div>
      </Router>

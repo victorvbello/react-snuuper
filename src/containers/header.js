@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { Navbar, Nav, NavItem} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Navbar, Nav, NavItem, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import {getProductCart} from '../actions/cart';
@@ -22,17 +22,17 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <LinkContainer to={'/products/electronics'}>
+            <LinkContainer to={'/products/electronicos'}>
               <NavItem> 
-                Tecnología
+                Electrónicos
               </NavItem>
             </LinkContainer>
-            <LinkContainer to={'/products/movies'}>
+            <LinkContainer to={'/products/peliculas'}>
               <NavItem> 
-                Peliculas
+                Películas
               </NavItem>
             </LinkContainer>
-            <LinkContainer to={'/products/video-games'}>
+            <LinkContainer to={'/products/video-juegos'}>
               <NavItem> 
                 Video Juegos
               </NavItem>
@@ -41,7 +41,7 @@ class Header extends Component {
           <Nav pullRight>
             <LinkContainer to={'/shoppingCart'}>
               <NavItem>
-                Total Productos ({this.props.totalProductCart})
+                Total Productos <Badge>{this.props.totalProductCart}</Badge>
               </NavItem>
             </LinkContainer>
           </Nav>

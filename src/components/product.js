@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ListGroup, ListGroupItem, Grid, Row, Col } from 'react-bootstrap';
 
-import {getProducts} from '../actions/product';
-import {addProductToCart} from '../actions/cart';
+import { getProducts } from '../actions/product';
+import { addProductToCart } from '../actions/cart';
 import ProductItem from './productItem';
-import {transformCategory} from '../util';
+import Wizard from './wizard';
 
 class Product extends Component {
 
@@ -21,7 +21,7 @@ class Product extends Component {
     const categoryParsed = category.replace('-', '_').toUpperCase();
     this.props.getProducts(categoryParsed);
     this.setState({
-      currentCategory:transformCategory(category)
+      currentCategory:category.replace('-',' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
     });
   }
 
@@ -42,50 +42,55 @@ class Product extends Component {
   renderProductList(){
     return this.props.products.map((product)=>{
       let productCart={ id:product.id,
+                        img:product.url,
                         category:this.state.currentCategory,
                         name:product.name,
                         price:product.price
                       };
       return(
-        <ProductItem 
-          key={product.id}
-          name={product.name}
-          excerpt={product.excerpt}
-          price={product.price}
-          imgUrl={product.url}
-          additemToCart={() => this.props.addProductToCart(productCart)}/>
+        <ListGroupItem key={"item_"+product.id}>
+          <ProductItem 
+            key={product.id}
+            name={product.name}
+            excerpt={product.excerpt}
+            price={product.price}
+            imgUrl={product.url}
+            additemToCart={() => this.props.addProductToCart(productCart)}/>
+        </ListGroupItem> 
       );
     });
   }
 
-  renderNavButtons(){
-    let prev=null;
-    let next=null;
-    if(this.props.prevCategory!=""){
-      prev=<Link to={'/products/'+this.props.prevCategory}>prev</Link>;
-    }
-    if(this.props.nextCategory!=""){
-      next=<Link to={'/products/'+this.props.nextCategory}>next</Link>;
-    }else{
-      next=<Link to={'/shoppingCart'}>buy</Link>;
-    }
-    return (
-      <div>
-        {prev} -----
-        {next}
-      </div>
-    );
-  }
-
   render() {
     return (
-      <div>
-        <h2>Lista de Productos de la Categoria: {this.state.currentCategory}</h2>
-        <ul>
-          {this.renderProductList()}
-        </ul>
-        {this.renderNavButtons()}
-      </div>
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <h2>Lista de Productos de la Categoría: {this.state.currentCategory}</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Wizard 
+              prevCategory={this.props.prevCategory}
+              nextCategory={this.props.nextCategory}/>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <ListGroup>
+              {this.renderProductList()}
+            </ListGroup>
+          </Col>
+        </Row> 
+        <Row>
+          <Col xs={12}>
+            <Wizard 
+              prevCategory={this.props.prevCategory}
+              nextCategory={this.props.nextCategory}/>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

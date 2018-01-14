@@ -12,9 +12,11 @@ export function cart(state=initialState,action){
   switch(action.type){
     case CART.SUCCESS_ADD_PRODUCT_CART:
       const product=action.payload
-      newList.push(product);
-      newTotalPrice+=product.price;
-      return { ...state, ...{ list: newList,totalPrice:newTotalPrice} };
+      if(newList.indexOf(product)==-1){
+        newList.push(product);
+        newTotalPrice+=product.price;
+      }
+      return { ...state, ...{ list: newList,totalPrice:newTotalPrice,send:initialState.send} };
     break;
     case CART.SUCCESS_GET_CART:
       return {...state,...{list:newList,totalPrice:newTotalPrice}}
@@ -31,10 +33,12 @@ export function cart(state=initialState,action){
       return {...state,...{list:newList,totalPrice:newTotalPrice}}
     break;
     case CART.SUCCESS_SEND_CART:
+      console.log("Compra Realizada");
+      console.log(newList);
       return {...state,...{list:newList,totalPrice:newTotalPrice,send:action.payload}}
     break;
     case CART.SUCCESS_CLEAR_CART:
-      return {...state,...initialState}
+      return {...state,...{list:initialState.list,totalPrice:initialState.totalPrice}}
     break;
     default:
       return state;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { ListGroup, ListGroupItem, Grid, Row, Col, Button, Alert } from 'react-bootstrap';
 
 import {getProductCart,deleteProductCart,sendCart} from '../actions/cart';
 import CartItem from './cartItem';
@@ -20,31 +21,62 @@ class Cart extends Component {
   renderCartList(){
     return this.props.cartProducts.map((cartProduct)=>{
       return(
-        <CartItem
-          key={cartProduct.id}
-          category={cartProduct.category}
-          name={cartProduct.name} 
-          price={cartProduct.price} 
-          deleteItem={() => this.props.deleteProductCart(cartProduct.id)} />
+        <ListGroupItem key={"items_"+cartProduct.id}>
+          <CartItem
+            key={cartProduct.id}
+            img={cartProduct.img}
+            category={cartProduct.category}
+            name={cartProduct.name} 
+            price={cartProduct.price} 
+            deleteItem={() => this.props.deleteProductCart(cartProduct.id)} />
+        </ListGroupItem>
       );
     });
   }
 
   render() {
     let ifCartSend=null;
-     if(this.props.cartSave){
-      ifCartSend=(<span>Carro guardado con exito</span>);
+    let obtionsCart=null; 
+    if(this.props.cartSave){
+      ifCartSend=(<Alert bsStyle="success">Carro guardado con Exito</Alert>);
+    }else{
+      obtionsCart=(
+        <Row>
+          <Col xs={6}>
+            <h4><b>Total A Pagar:</b> {this.props.totalCart} CPL</h4>
+          </Col>
+          <Col xs={6} className="text-right">
+            <Button 
+              onClick={this.props.sendCart} 
+              disabled={this.props.totalCart==0}
+              bsStyle="success">
+              Terminar Compra
+            </Button>
+          </Col>
+        </Row>
+      );
     }
     return (
-      <div>
-        <h2>Lista de Productos en el carro de compras</h2>
-        <ul>
-          {this.renderCartList()}
-        </ul>
-        total: {this.props.totalCart}
-        <button onClick={this.props.sendCart} disabled={this.props.totalCart==0}>Terminar Compra</button>
-        {ifCartSend}
-      </div>
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <h2>Lista de Productos en el Carro de Compras</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+          <ListGroup>
+            {this.renderCartList()}
+          </ListGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            {ifCartSend}
+          </Col>
+        </Row>
+        {obtionsCart}
+      </Grid>
     );
   }
 }
