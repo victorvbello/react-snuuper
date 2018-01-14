@@ -1,4 +1,4 @@
-import {PRODUCT,PRODUCT_CATEGORIES} from '../constans';
+import {PRODUCT} from '../constans';
 import {ProductApi} from '../api';
 
 

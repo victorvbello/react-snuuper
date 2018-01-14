@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, ListGroupItem, Grid, Row, Col } from 'react-bootstrap';
 
 import { getProducts } from '../actions/product';
 import { addProductToCart } from '../actions/cart';
-import Product from '../components/product';
+import ProductList from '../components/productList';
 
 class ProductContainer extends Component {
 
@@ -40,7 +39,7 @@ class ProductContainer extends Component {
 
   render() {
     return (
-      <Product
+      <ProductList
         currentCategory={this.state.currentCategory}
         prevCategory={this.props.prevCategory}
         nextCategory={this.props.nextCategory}

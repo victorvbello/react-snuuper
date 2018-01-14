@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Row, Grid, Col, Button, ListGroupItem, ListGroup } from 'react-bootstrap';
+import { Row, Grid, Col, ListGroupItem, ListGroup } from 'react-bootstrap';
 
 import ProductItem from './productItem';
 import Paginator from './paginator';
 
-const Product = ({ currentCategory, prevCategory, nextCategory, products, addProductToCart  }) => {
+const ProductList = ({ currentCategory, prevCategory, nextCategory, products, addProductToCart  }) => {
 
   const renderProductList=()=>{
     return products.map((product)=>{
@@ -61,4 +60,4 @@ const Product = ({ currentCategory, prevCategory, nextCategory, products, addPro
   );
 };
 
-export default Product;
+export default ProductList;
