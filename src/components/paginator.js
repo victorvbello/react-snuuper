@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Grid, Col, Button } from 'react-bootstrap';
 
-const Wizard = ({ prevCategory, nextCategory }) => {
+const Paginator = ({ prevCategory, nextCategory }) => {
   let next=null;
   let prev=(
     <LinkContainer to={'/products/'+prevCategory}>
@@ -37,4 +37,4 @@ const Wizard = ({ prevCategory, nextCategory }) => {
   );
 };
 
-export default Wizard;
+export default Paginator;

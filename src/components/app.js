@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
-import Header from './header';
+import Header from '../containers/header';
 import Content from './content';
 
 class App extends Component {

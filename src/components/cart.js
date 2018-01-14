@@ -7,13 +7,6 @@ import CartItem from './cartItem';
 
 class Cart extends Component {
 
-  constructor(){
-    super();
-    this.state={
-      totalPrice:0
-    }
-  }
-
   componentWillMount(){
     this.props.getProductCart();
   }
